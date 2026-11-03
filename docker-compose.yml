@@ -1,0 +1,21 @@
+# Levanta la base de datos PostgreSQL local con: docker compose up -d
+#
+# PUERTO: "5440:5432" significa  <puerto de TU computador>:<puerto dentro del contenedor>.
+# Se usa 5440 (y no el 5432 habitual) para no chocar con otro PostgreSQL instalado en el
+# computador ni con otros contenedores. Si 5440 también está ocupado, cambia SOLO el primer
+# número y usa el mismo en DATABASE_URL (backend/.env). Ver docs/guia-instalacion.md.
+services:
+  db:
+    image: postgres:16
+    container_name: gympro-db
+    environment:
+      POSTGRES_USER: gympro
+      POSTGRES_PASSWORD: gympro
+      POSTGRES_DB: gympro
+    ports:
+      - "5440:5432"
+    volumes:
+      - gympro_datos:/var/lib/postgresql/data
+
+volumes:
+  gympro_datos:

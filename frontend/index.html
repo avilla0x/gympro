@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GymPro</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Tipografía: Inter (Google Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!--
+      Aplica el tema (claro/oscuro) ANTES de que cargue la página, para que no
+      haya un destello del tema equivocado. Por defecto el sistema es oscuro.
+      (Ver src/context/TemaContext.jsx, que lo mantiene después.)
+    -->
+    <script>
+      try {
+        var tema = localStorage.getItem("gympro-tema") || "dark";
+        document.documentElement.classList.toggle("dark", tema === "dark");
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
