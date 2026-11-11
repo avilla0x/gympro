@@ -17,7 +17,7 @@ from app.core.config import settings
 from app.core.database import engine
 from app.core.errores import ErrorDeNegocio
 from app.core.tareas import iniciar_programador
-from app.routers import auth, avisos, pagos, planes, salud, usuarios
+from app.routers import asistencias, auth, avisos, pagos, planes, salud, usuarios
 from app.services.usuarios import asegurar_admin_demo
 
 _registro = logging.getLogger("uvicorn.error")
@@ -74,3 +74,4 @@ app.include_router(usuarios.router, prefix="/api")
 app.include_router(planes.router, prefix="/api")
 app.include_router(pagos.router, prefix="/api")
 app.include_router(avisos.router, prefix="/api")
+app.include_router(asistencias.router, prefix="/api")

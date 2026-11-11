@@ -2,15 +2,19 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import { AppLayout } from "@/components/AppLayout";
+import PaginaAsistencias from "@/pages/PaginaAsistencias";
 import PaginaAvisos from "@/pages/PaginaAvisos";
+import PaginaCheckin from "@/pages/PaginaCheckin";
 import PaginaComprobante from "@/pages/PaginaComprobante";
 import PaginaInicio from "@/pages/PaginaInicio";
 import PaginaLogin from "@/pages/PaginaLogin";
+import PaginaMiHistorial from "@/pages/PaginaMiHistorial";
 import PaginaPagarMembresia from "@/pages/PaginaPagarMembresia";
 import PaginaPagos from "@/pages/PaginaPagos";
 import PaginaPasarela from "@/pages/PaginaPasarela";
 import PaginaPerfil from "@/pages/PaginaPerfil";
 import PaginaPlanes from "@/pages/PaginaPlanes";
+import PaginaRecepcion from "@/pages/PaginaRecepcion";
 import PaginaRecuperar from "@/pages/PaginaRecuperar";
 import PaginaRestablecer from "@/pages/PaginaRestablecer";
 import PaginaSinPermiso from "@/pages/PaginaSinPermiso";
@@ -47,11 +51,15 @@ export default function App() {
             <Route path="/usuarios/:id" element={<PaginaUsuarioEditar />} />
             <Route path="/planes" element={<PaginaPlanes />} />
             <Route path="/pagos" element={<PaginaPagos />} />
+            <Route path="/recepcion" element={<PaginaRecepcion />} />
+            <Route path="/asistencias" element={<PaginaAsistencias />} />
           </Route>
 
-          {/* Solo cliente: pagar su membresía. */}
+          {/* Solo cliente: pagar su membresía, registrar su entrada (/checkin es la dirección del QR) y ver su historial. */}
           <Route element={<RutaPorRol roles={["cliente"]} />}>
             <Route path="/pagar" element={<PaginaPagarMembresia />} />
+            <Route path="/checkin" element={<PaginaCheckin />} />
+            <Route path="/mi-historial" element={<PaginaMiHistorial />} />
           </Route>
 
           {/* Administrador y cliente: la pasarela simulada y el comprobante (el servidor valida de quién es cada pago). */}

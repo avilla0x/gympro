@@ -83,7 +83,7 @@ describe("Avisos", () => {
     });
     dibujarApp("/avisos");
     await userEvent.click(await screen.findByRole("button", { name: "Revisar vencimientos ahora" }));
-    expect(await screen.findByText("Revisión terminada: 2 por vencer, 0 vencen hoy y 1 resumen(es).")).toBeInTheDocument();
+    expect(await screen.findByText("Revisión terminada: 2 por vencer, 0 vencen hoy, 1 resumen(es) y 0 recordatorio(s) de asistencia.")).toBeInTheDocument();
     expect(await screen.findByText("Resumen de vencimientos")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Ver pagos y vencimientos" })).toHaveAttribute("href", "/pagos");
     expect(llamadas(falso, "/avisos/generar")).toHaveLength(1);

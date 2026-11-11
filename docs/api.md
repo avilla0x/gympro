@@ -61,11 +61,15 @@ Roles: **A** = administrador · **E** = entrenador · **C** = cliente
 ## Asistencia y seguimiento (HU02)
 | Método | Ruta | Rol | Qué hace |
 |---|---|---|---|
-| POST | `/asistencias/checkin` | A | Registra entrada con el código del QR |
-| GET | `/asistencias` | A | Historial con filtros por cliente y fechas |
-| GET | `/mi/asistencias` | C | Su historial |
-| GET | `/mi/metricas` | C | Racha y % de cumplimiento |
-| GET | `/mi/dashboard` | C | Resumen: membresía, asistencia, métricas, rutina y medidas |
+| GET | `/asistencias/qr` | A | Código del QR fijo y el enlace que debe contener |
+| POST | `/asistencias/checkin` | C | El cliente registra su entrada con `{codigo}`. 400 si el QR es inválido; 403 si está en mora o sin membresía |
+| POST | `/asistencias/manual` | A | Recepción registra la entrada de `{usuario_id}` (misma regla de membresía) |
+| GET | `/asistencias` | A | Historial de todos. Filtros: `usuario_id`, `desde`, `hasta` (AAAA-MM-DD), `limite` (máx. 1000, por defecto 200) |
+| GET | `/usuarios/{id}/asistencias` | A · C 🔒 · E 🔒 | Historial de un cliente (mismos filtros de fecha) |
+| GET | `/usuarios/{id}/asistencia/metricas` | A · C 🔒 · E 🔒 | Racha actual, mejor racha, días asistidos y % de cumplimiento del mes |
+| POST | `/avisos/generar` | A | (ya existía) ahora también devuelve `recordatorio_asistencia` |
+
+El dashboard de progreso del cliente (`/mi/dashboard`) llega con la tarea 1.2.1.5.
 
 ## Rutinas (rol entrenador)
 | Método | Ruta | Rol | Qué hace |

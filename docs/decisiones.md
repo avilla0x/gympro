@@ -121,3 +121,14 @@ Si no se exige AWS, el backend y la base de datos pueden desplegarse en Render o
 - **Idempotente:** un aviso es único por (persona, tipo, fecha de referencia), con restricción en la base de datos. «Por vencer» usa un rango (1 a 3 días) y no el día exacto para no perder el aviso si el servidor estuvo apagado.
 - **Resumen al administrador** (mi interpretación de «avisos propios para el admin»): un aviso diario con cuántos clientes están por vencer o vencen hoy, solo si hay alguno. Dime si preferías otra cosa.
 - **Limitación:** si hay varios servidores corriendo la API a la vez, cada uno ejecutaría la tarea; la restricción única evita avisos duplicados, pero se enviarían correos repetidos. Con un solo servidor no pasa.
+
+## D22. Asistencia por QR fijo, varias entradas por día y racha diaria
+- **QR fijo del gimnasio escaneado por el cliente** (decisión del cliente; puede ser ficticio): el QR codifica un enlace a `/checkin?codigo=...`. Es simple y sirve para la demostración, pero no es a prueba de fraude (alguien podría fotografiar el QR y registrarse sin estar). Si se necesitara, el siguiente paso sería un código que rote cada día (`QR_GIMNASIO` ya es configurable) o validar presencia en el sitio.
+- **Se mantiene el `?codigo=` al iniciar sesión:** una prueba en navegador real mostró que el login descartaba el parámetro; se corrigió en `RutaPublica` y quedó una prueba.
+- **Varias entradas por día** (decisión del cliente): para la racha cuenta el día, no la entrada. No hay límite por día; si hiciera falta, se puede agregar un tiempo mínimo entre entradas.
+- **En mora se rechaza** (decisión mía, la opción recomendada), con el motivo, y el cliente ve un enlace a «Pagar membresía».
+- **Racha por días consecutivos** (decisión del cliente). Esto reemplaza la propuesta anterior de «meta semanal de 3 días». Cumplimiento del mes = días con asistencia ÷ días transcurridos (decisión mía; no es 100 % alcanzable salvo asistir todos los días, por eso se muestra junto a los días asistidos).
+- **Recordatorio a los 7 días** (propuesta que quedó «a validar», se implementó con ese valor configurable) y una vez por ausencia.
+- **Registro manual en recepción** como respaldo, con la misma regla de membresía.
+- **Limitación:** el historial del administrador muestra las 200 entradas más recientes (con filtros se refina); no hay paginación.
+

@@ -17,6 +17,7 @@ const ENLACES = {
   por_vencer: { ruta: "/pagar", texto: "Renovar membresía" },
   vence_hoy: { ruta: "/pagar", texto: "Renovar membresía" },
   resumen_admin: { ruta: "/pagos", texto: "Ver pagos y vencimientos" },
+  recordatorio_asistencia: { ruta: "/checkin", texto: "Registrar mi entrada" },
 };
 
 export default function PaginaAvisos() {
@@ -42,11 +43,12 @@ export default function PaginaAvisos() {
     setResultado("");
     try {
       const r = await generarAvisos();
-      const total = r.por_vencer + r.vence_hoy + r.resumen_admin;
+      const recordatorios = r.recordatorio_asistencia ?? 0;
+      const total = r.por_vencer + r.vence_hoy + r.resumen_admin + recordatorios;
       setResultado(
         total === 0
           ? "Revisión terminada: no había avisos nuevos."
-          : `Revisión terminada: ${r.por_vencer} por vencer, ${r.vence_hoy} vencen hoy y ${r.resumen_admin} resumen(es).`,
+          : `Revisión terminada: ${r.por_vencer} por vencer, ${r.vence_hoy} vencen hoy, ${r.resumen_admin} resumen(es) y ${recordatorios} recordatorio(s) de asistencia.`,
       );
       await recargar();
     } catch (falla) {

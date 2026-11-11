@@ -2,7 +2,7 @@
 
 Sistema web para el gimnasio **GymPro Fitness Center**: gestión de usuarios, membresías, pagos, asistencia con código QR y rutinas asignadas por el entrenador.
 
-> Estado: **Sprint 1 terminado** · **HU01 completa** (modelo de datos, autenticación, interfaz de login, roles y permisos, perfil de usuario) · **HU03 completa** (planes, pagos manuales y estados de membresía, pasarela simulada con comprobante, alertas automáticas de vencimiento). Sigue el Sprint 2.
+> Estado: **Sprint 1 terminado** · **HU01 completa** (modelo de datos, autenticación, interfaz de login, roles y permisos, perfil de usuario) · **HU03 completa** (planes, pagos manuales y estados de membresía, pasarela simulada con comprobante, alertas automáticas de vencimiento). **Sprint 2 en curso:** HU02 con check-in por QR, historial, constancia (racha y %) y recordatorios; falta el dashboard de progreso del cliente.
 
 ---
 

@@ -7,7 +7,7 @@ const etiquetas = (rol) => itemsParaRol(rol).map((item) => item.etiqueta);
 
 describe("menú por rol", () => {
   it("el administrador ve las secciones de gestión", () => {
-    expect(etiquetas("admin")).toEqual(["Inicio", "Dashboard", "Recepción", "Usuarios", "Planes", "Pagos", "Reportes", "Avisos", "Mi perfil"]);
+    expect(etiquetas("admin")).toEqual(["Inicio", "Dashboard", "Recepción", "Asistencias", "Usuarios", "Planes", "Pagos", "Reportes", "Avisos", "Mi perfil"]);
   });
 
   it("el entrenador ve sus clientes, rutinas y medidas", () => {
@@ -15,7 +15,7 @@ describe("menú por rol", () => {
   });
 
   it("el cliente ve su seguimiento personal", () => {
-    expect(etiquetas("cliente")).toEqual(["Inicio", "Mi progreso", "Mi historial", "Mi rutina", "Pagar membresía", "Avisos", "Mi perfil"]);
+    expect(etiquetas("cliente")).toEqual(["Inicio", "Mi progreso", "Registrar entrada", "Mi historial", "Mi rutina", "Pagar membresía", "Avisos", "Mi perfil"]);
   });
 
   it("nadie ve secciones de otro rol", () => {

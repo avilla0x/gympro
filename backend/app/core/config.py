@@ -41,6 +41,11 @@ class Settings(BaseSettings):
     alertas_activas: bool = True
     hora_alertas: int = 6
 
+    # Asistencia (HU02): código que lleva el QR FIJO pegado en el gimnasio (puede ser ficticio) y
+    # cuántos días sin asistir deben pasar para recordarle al cliente que vuelva.
+    qr_gimnasio: str = "GYMPRO-ENTRADA"
+    dias_sin_asistir_recordatorio: int = 7
+
     # --- Frontend ----------------------------------------------------------
     # Dirección desde la que se permite llamar a la API (CORS) y a la que
     # apuntan los enlaces de recuperación de contraseña.

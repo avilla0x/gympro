@@ -10,6 +10,10 @@ export function RutaPublica() {
   const ubicacion = useLocation();
 
   if (cargando) return <PantallaCarga />;
-  if (usuario) return <Navigate to={ubicacion.state?.desde?.pathname ?? "/"} replace />;
+  if (usuario) {
+    // Se conserva también la parte "?codigo=..." (el QR del gimnasio abre /checkin?codigo=...).
+    const desde = ubicacion.state?.desde;
+    return <Navigate to={desde ? `${desde.pathname}${desde.search ?? ""}` : "/"} replace />;
+  }
   return <Outlet />;
 }

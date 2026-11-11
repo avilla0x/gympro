@@ -27,21 +27,23 @@ El margen de 5 días es configurable (`DIAS_POR_VENCER` en `.env`). «Hoy» se c
 - Un pago anulado no se puede reactivar; si fue un error, se registra un pago nuevo.
 - Registrar un pago manual exige un cliente **activo**. Un pago manual nace aprobado.
 
-## RN3. Check-in
-Para registrar una entrada, el sistema valida en este orden:
-1. El código existe.
-2. El usuario es cliente y está activo.
-3. La membresía está **al día** o **por vencer** (en mora se rechaza).
-4. No tiene ya una entrada registrada **ese mismo día** **(a validar)**.
+## RN3. Check-in (HU02)
+Método: **QR fijo del gimnasio**, escaneado por el cliente con su celular (decisión del cliente; el QR puede ser simulado). El QR contiene el enlace `FRONTEND_URL/checkin?codigo=<QR_GIMNASIO>`; al abrirlo, el cliente inicia sesión (si hace falta) y su entrada se registra sola. Como respaldo, recepción puede registrar la entrada de un cliente a mano.
 
-La respuesta siempre dice el motivo: "Bienvenido(a)", "Código no existe", "Membresía vencida", "Ya registró entrada hoy".
+Para registrar una entrada, el sistema valida:
+1. Quien escanea es un **cliente** con sesión iniciada (el administrador y el entrenador no usan el QR).
+2. El código coincide con el del gimnasio (`QR_GIMNASIO`, configurable).
+3. La membresía está **al día** o **por vencer** (el último día todavía entra). **En mora o sin membresía se rechaza** con el motivo (ej. «Tu membresía venció el 30/11/2026»).
+4. En el registro manual, además, el cliente debe existir y estar activo.
 
-## RN4. Racha y % de cumplimiento (a validar)
-- Cada cliente tiene una **meta semanal** de asistencia (por defecto **3 días por semana**).
-- **Racha:** número de semanas consecutivas, hasta la actual, en que cumplió la meta.
-- **% de cumplimiento del mes:** asistencias del mes ÷ (meta semanal × semanas transcurridas del mes) × 100, con máximo 100 %.
+**Varias entradas por día se permiten** (decisión del cliente): cada escaneo es una fila de `asistencia`. Para la constancia (RN4) cuenta el **día**, no la cantidad de entradas.
 
-Se usa la meta semanal porque nadie va al gimnasio todos los días; una racha "diaria" se rompería siempre.
+## RN4. Racha y % de cumplimiento (HU02)
+Decisión del cliente: la racha es por **días consecutivos**.
+- **Racha actual:** días seguidos con al menos una entrada, contando hacia atrás desde hoy. Si hoy todavía no vino, se parte de ayer (aún está a tiempo); si ayer tampoco vino, la racha es 0.
+- **Mejor racha:** la más larga de todo su historial.
+- **% de cumplimiento del mes:** días del mes con asistencia ÷ días transcurridos del mes (incluido hoy) × 100, redondeado. Se reinicia cada mes; la racha no.
+- Se calculan al consultar (no se guardan).
 
 ## RN5. Alertas de vencimiento (HU03)
 Una tarea diaria (6:00 a. m., hora de Colombia, configurable con `HORA_ALERTAS`) revisa a los clientes **activos** que tienen membresía y crea avisos dentro del sistema (pantalla «Avisos», con contador en el menú) y envía el correo equivalente (hoy se imprime en la consola del servidor):
@@ -54,7 +56,11 @@ Una tarea diaria (6:00 a. m., hora de Colombia, configurable con `HORA_ALERTAS`)
 - **Seguimiento:** en Pagos → «Vencimientos» el administrador ve los clientes por vencer y en mora (más urgentes primero), con teléfono y acceso rápido para registrar su pago.
 
 ## RN6. Recordatorio de asistencia (HU02)
-La misma tarea diaria envía un recordatorio al cliente con membresía al día que lleve **7 días sin asistir** **(a validar)**. Máximo un recordatorio por semana.
+La misma tarea diaria (RN5) crea un aviso «Te extrañamos en el gimnasio» (y su correo) para el cliente **activo con membresía vigente** que lleva **7 días o más sin asistir** (`DIAS_SIN_ASISTIR_RECORDATORIO`).
+- Si nunca ha asistido, los días se cuentan desde que empezó su primera membresía.
+- Se avisa **una sola vez por ausencia**: el aviso es único por (cliente, tipo, fecha de su última asistencia). Si vuelve y se ausenta de nuevo, se le avisa otra vez.
+- No aplica a clientes en mora o sin membresía (ya los cubren los avisos de vencimiento) ni a desactivados.
+- «Avisos» → «Revisar vencimientos ahora» (administrador) también genera los recordatorios.
 
 ## RN7. Pasarela simulada
 No se mueve dinero real: se imita el flujo de una pasarela para poder demostrar un pago aprobado y uno rechazado.

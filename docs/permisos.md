@@ -63,6 +63,15 @@ Leyenda: ✅ puede · — no puede · 🔒 solo lo suyo · ⏳ aún no construid
 | Revisar vencimientos a mano (`POST /avisos/generar`) | ✅ | — | — |
 | Ver clientes por vencer y en mora (`GET /vencimientos`) | ✅ | — | — |
 
+### HU02 · Asistencia
+| Capacidad | Admin | Entrenador | Cliente |
+|---|:--:|:--:|:--:|
+| Registrar su entrada con el QR (`POST /asistencias/checkin`) | — | — | ✅ |
+| Registrar la entrada de un cliente a mano (`POST /asistencias/manual`) | ✅ | — | — |
+| Ver el QR del gimnasio (`GET /asistencias/qr`) | ✅ | — | — |
+| Historial de **todos** con filtros (`GET /asistencias`) | ✅ | — | — |
+| Historial y constancia de un cliente | ✅ | ✅ 🔒 sus clientes | ✅ 🔒 el suyo |
+
 ### Otros módulos (planeados, ver `docs/api.md`)
 | Módulo | Admin | Entrenador | Cliente |
 |---|:--:|:--:|:--:|
@@ -70,7 +79,7 @@ Leyenda: ✅ puede · — no puede · 🔒 solo lo suyo · ⏳ aún no construid
 | Planes: cambiar el precio | ✅ | — | — |
 | Pagos y membresías | ✅ registra, lista, cobra por pasarela y anula pagos · ✅ ve todos los estados | ✅ 🔒 ve la membresía y pagos de sus clientes | ✅ 🔒 ve la suya y sus pagos · ✅ 🔒 paga con la pasarela y ve sus comprobantes |
 | Check-in (recepción) | ⏳ | — | — |
-| Historial y métricas de asistencia | ⏳ todos | — | ⏳ 🔒 los suyos |
+| Historial y métricas de asistencia | ✅ todos | ✅ 🔒 sus clientes | ✅ 🔒 los suyos |
 | Rutinas | ⏳ consulta | ⏳ crea y asigna (sus clientes) | ⏳ 🔒 la suya |
 | Medidas físicas | ⏳ consulta | ⏳ registra (sus clientes) | ⏳ 🔒 las suyas |
 | Reportes y dashboard administrativo | ⏳ | — | — |

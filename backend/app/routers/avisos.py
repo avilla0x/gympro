@@ -13,6 +13,7 @@ from app.core.dependencias import get_usuario_actual, solo_admin
 from app.models import Usuario
 from app.schemas.aviso import AvisoLeer, ListaAvisos, ResultadoGeneracion, SeguimientoLeer
 from app.services import avisos as servicio
+from app.services.recordatorios import generar_recordatorios_asistencia
 
 router = APIRouter(tags=["Avisos"])
 
@@ -37,8 +38,10 @@ def marcar_leido(aviso_id: int, actual: Usuario = Depends(get_usuario_actual), s
 
 @router.post("/avisos/generar", response_model=ResultadoGeneracion)
 def generar_avisos(_admin: Usuario = Depends(solo_admin), session: Session = Depends(get_session)):
-    """Revisa los vencimientos y crea los avisos de hoy (solo administrador). No repite avisos ya creados."""
-    return servicio.generar_avisos_vencimiento(session)
+    """Revisa vencimientos y asistencia y crea los avisos de hoy (solo administrador). No repite avisos ya creados."""
+    resultado = servicio.generar_avisos_vencimiento(session)
+    resultado["recordatorio_asistencia"] = generar_recordatorios_asistencia(session)
+    return resultado
 
 
 @router.get("/vencimientos", response_model=list[SeguimientoLeer])

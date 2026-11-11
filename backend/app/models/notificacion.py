@@ -1,6 +1,6 @@
 """
 Modelo `Notificacion`: la tabla `notificacion`. Un aviso dentro del sistema para una persona
-(se ve en la pantalla «Avisos»). Hoy se generan por la tarea diaria de vencimientos (RN5).
+(se ve en la pantalla «Avisos»). Se generan por la tarea diaria: vencimientos (RN5) y recordatorios de asistencia (RN6).
 
 No se repiten: la combinación (usuario, tipo, fecha de referencia) es única, así la tarea puede
 correr varias veces el mismo día sin duplicar avisos.
@@ -18,6 +18,7 @@ class TipoAviso(StrEnum):
     POR_VENCER = "por_vencer"  # al cliente: le faltan pocos días
     VENCE_HOY = "vence_hoy"  # al cliente: hoy es su último día
     RESUMEN_ADMIN = "resumen_admin"  # al administrador: cuántos clientes están por vencer o vencen hoy
+    RECORDATORIO_ASISTENCIA = "recordatorio_asistencia"  # al cliente: lleva varios días sin ir al gimnasio
 
 
 def _ahora_utc() -> datetime:
@@ -30,7 +31,7 @@ class Notificacion(SQLModel, table=True):
 
     id: int | None = Field(default=None, primary_key=True)
     usuario_id: int = Field(foreign_key="usuario.id", index=True)  # a quién se le avisa
-    tipo: TipoAviso = Field(sa_column=columna_enum(TipoAviso))
+    tipo: TipoAviso = Field(sa_column=columna_enum(TipoAviso, largo=30))
     titulo: str = Field(max_length=120)
     mensaje: str = Field(max_length=500)
     # Qué fecha origina el aviso: el vencimiento de la membresía (clientes) o el día del resumen (admin).

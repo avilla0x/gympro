@@ -38,3 +38,4 @@ class ResultadoGeneracion(BaseModel):
     por_vencer: int
     vence_hoy: int
     resumen_admin: int
+    recordatorio_asistencia: int = 0

@@ -16,6 +16,7 @@
 // (ver docs/permisos.md); nunca se confía en el frontend para la seguridad.
 import {
   Bell,
+  CalendarCheck,
   ChartColumn,
   ClipboardList,
   CreditCard,
@@ -37,7 +38,8 @@ export const ITEMS_MENU = [
 
   // --- Administrador ---
   { ruta: "/dashboard", etiqueta: "Dashboard", icono: LayoutDashboard, roles: ["admin"], disponible: false },
-  { ruta: "/recepcion", etiqueta: "Recepción", icono: ScanLine, roles: ["admin"], disponible: false },
+  { ruta: "/recepcion", etiqueta: "Recepción", icono: ScanLine, roles: ["admin"], disponible: true },
+  { ruta: "/asistencias", etiqueta: "Asistencias", icono: CalendarCheck, roles: ["admin"], disponible: true },
   { ruta: "/usuarios", etiqueta: "Usuarios", icono: Users, roles: ["admin"], disponible: true },
   { ruta: "/planes", etiqueta: "Planes", icono: Tags, roles: ["admin"], disponible: true },
   { ruta: "/pagos", etiqueta: "Pagos", icono: CreditCard, roles: ["admin"], disponible: true },
@@ -50,7 +52,8 @@ export const ITEMS_MENU = [
 
   // --- Cliente ---
   { ruta: "/mi-progreso", etiqueta: "Mi progreso", icono: Activity, roles: ["cliente"], disponible: false },
-  { ruta: "/mi-historial", etiqueta: "Mi historial", icono: History, roles: ["cliente"], disponible: false },
+  { ruta: "/checkin", etiqueta: "Registrar entrada", icono: ScanLine, roles: ["cliente"], disponible: true },
+  { ruta: "/mi-historial", etiqueta: "Mi historial", icono: History, roles: ["cliente"], disponible: true },
   { ruta: "/mi-rutina", etiqueta: "Mi rutina", icono: Dumbbell, roles: ["cliente"], disponible: false },
   { ruta: "/pagar", etiqueta: "Pagar membresía", icono: CreditCard, roles: ["cliente"], disponible: true },
 

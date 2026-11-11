@@ -142,7 +142,7 @@ def test_generar_a_mano_solo_el_admin(client, session, admin, plan, reloj, corre
     cliente = cliente_con_membresia(client, session, admin, plan)  # paga el 28: vence el 27 de diciembre
     assert client.post("/api/avisos/generar", headers=encabezados(client, cliente.email)).status_code == 403
     r = client.post("/api/avisos/generar", headers=encabezados(client, admin.email))
-    assert r.status_code == 200 and r.json() == {"por_vencer": 0, "vence_hoy": 0, "resumen_admin": 0}
+    assert r.status_code == 200 and r.json() == {"por_vencer": 0, "vence_hoy": 0, "resumen_admin": 0, "recordatorio_asistencia": 0}
 
 
 def test_seguimiento_de_vencimientos(client, session, admin, plan, reloj, correos):

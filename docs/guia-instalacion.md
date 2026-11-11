@@ -63,6 +63,10 @@ uvicorn app.main:app --reload        # enciende la API
 - Si PowerShell dice que *la ejecución de scripts está deshabilitada*, ejecutar una vez: `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` y repetir la activación.
 - Cada vez que abras una terminal nueva, hay que volver a activar el entorno: `.venv\Scripts\Activate.ps1`.
 
+> **Alertas de vencimiento:** al encender la API se activa una tarea diaria (6:00 a. m., hora de Colombia) que crea los avisos de membresías por vencer. En la consola verás «Alertas automáticas activas». Si no la quieres durante el desarrollo, pon `ALERTAS_ACTIVAS=false` en `backend\.env`. Los correos no se envían de verdad: aparecen en esa misma consola.
+> **Si ya tenías el proyecto del Sprint 1:** después de bajar los cambios, ejecuta `alembic upgrade head` en `backend` (crea la tabla `asistencia`) y `npm install` en `frontend` (se agregó la librería `qrcode.react` para dibujar el QR). Para probar el check-in desde un celular, pon en `backend\.env` `FRONTEND_URL=http://<IP-de-tu-PC>:5173` (el QR apunta a esa dirección); para la demostración en el mismo computador no hace falta.
+> **Si `pip install` falla o falta `tzdata`:** ya está en `requirements.txt` (Windows no trae las zonas horarias); basta con repetir `pip install -r requirements.txt`.
+
 ## 5. Comprobar que funciona
 - Abrir http://127.0.0.1:8000/api/salud → debe mostrar `{"estado":"ok","base_de_datos":"ok"}`
 - Abrir http://127.0.0.1:8000/docs → documentación interactiva de la API.
@@ -77,7 +81,7 @@ En `gympro\backend`, con el entorno activado:
 pytest
 ```
 
-## 7. Frontend (pantalla de login)
+## 7. Frontend
 1. **Instalar Node.js 22 LTS** desde https://nodejs.org (instalador "LTS"). Comprobar: `node --version` (debe ser v22 o superior).
 2. Con la **API encendida** (paso 4), abrir **otra terminal** y, desde `gympro\frontend`:
    ```bash
@@ -85,6 +89,7 @@ pytest
    npm run dev
    ```
 3. Abrir http://localhost:5173 e iniciar sesión con `admin@gympro.com` / `admin1234`.
+   Para probar los pagos: crea un cliente en **Usuarios** (el documento es obligatorio), regístrale un pago en **Pagos** y entra con ese cliente (en una ventana privada) para ver **Pagar membresía** y **Avisos**.
 4. Para ejecutar las pruebas del frontend: `npm test`.
 
 > **Importante:** el frontend usa el puerto **5173** y la API el **8000**. Si el 5173 está ocupado, `npm run dev` lo dirá en vez de cambiar de puerto en silencio (así el backend sigue permitiendo la conexión).
@@ -93,5 +98,10 @@ pytest
 ## 8. (Opcional) Ver la base de datos con una herramienta visual
 Instalar **DBeaver** (https://dbeaver.io) y crear una conexión PostgreSQL con: servidor `localhost`, puerto `5440`, base `gympro`, usuario `gympro`, contraseña `gympro`.
 
-## Cuando alguien cambia las tablas
-Si un compañero agrega una migración nueva, después de hacer `git pull` ejecutar: `alembic upgrade head`.
+## Cuando alguien cambia las tablas o las librerías
+Después de hacer `git pull`, desde `backend` con el entorno activado:
+```powershell
+pip install -r requirements.txt
+alembic upgrade head
+```
+Y desde `frontend`: `npm install`. Si `.env.example` tiene variables nuevas, cópialas a tu `backend\.env` (el `.env` no se sube a Git).
