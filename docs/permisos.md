@@ -71,6 +71,7 @@ Leyenda: ✅ puede · — no puede · 🔒 solo lo suyo · ⏳ aún no construid
 | Ver el QR del gimnasio (`GET /asistencias/qr`) | ✅ | — | — |
 | Historial de **todos** con filtros (`GET /asistencias`) | ✅ | — | — |
 | Historial y constancia de un cliente | ✅ | ✅ 🔒 sus clientes | ✅ 🔒 el suyo |
+| Pantalla «Mi progreso» (`/mi-progreso`) | — | — | ✅ |
 
 ### Otros módulos (planeados, ver `docs/api.md`)
 | Módulo | Admin | Entrenador | Cliente |

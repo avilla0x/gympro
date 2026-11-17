@@ -8,6 +8,7 @@ import PaginaCheckin from "@/pages/PaginaCheckin";
 import PaginaComprobante from "@/pages/PaginaComprobante";
 import PaginaInicio from "@/pages/PaginaInicio";
 import PaginaLogin from "@/pages/PaginaLogin";
+import PaginaMiProgreso from "@/pages/PaginaMiProgreso";
 import PaginaMiHistorial from "@/pages/PaginaMiHistorial";
 import PaginaPagarMembresia from "@/pages/PaginaPagarMembresia";
 import PaginaPagos from "@/pages/PaginaPagos";
@@ -60,6 +61,7 @@ export default function App() {
             <Route path="/pagar" element={<PaginaPagarMembresia />} />
             <Route path="/checkin" element={<PaginaCheckin />} />
             <Route path="/mi-historial" element={<PaginaMiHistorial />} />
+            <Route path="/mi-progreso" element={<PaginaMiProgreso />} />
           </Route>
 
           {/* Administrador y cliente: la pasarela simulada y el comprobante (el servidor valida de quién es cada pago). */}

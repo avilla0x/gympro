@@ -69,7 +69,7 @@ Roles: **A** = administrador · **E** = entrenador · **C** = cliente
 | GET | `/usuarios/{id}/asistencia/metricas` | A · C 🔒 · E 🔒 | Racha actual, mejor racha, días asistidos y % de cumplimiento del mes |
 | POST | `/avisos/generar` | A | (ya existía) ahora también devuelve `recordatorio_asistencia` |
 
-El dashboard de progreso del cliente (`/mi/dashboard`) llega con la tarea 1.2.1.5.
+«Mi progreso» (cliente) no tiene endpoint propio: junta `GET /usuarios/{id}/membresia`, `GET /usuarios/{id}/asistencia/metricas` y `GET /usuarios/{id}/asistencias?desde=<día 1 del mes>`.
 
 ## Rutinas (rol entrenador)
 | Método | Ruta | Rol | Qué hace |

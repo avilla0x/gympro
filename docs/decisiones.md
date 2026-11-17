@@ -132,3 +132,8 @@ Si no se exige AWS, el backend y la base de datos pueden desplegarse en Render o
 - **Registro manual en recepción** como respaldo, con la misma regla de membresía.
 - **Limitación:** el historial del administrador muestra las 200 entradas más recientes (con filtros se refina); no hay paginación.
 
+## D23. «Mi progreso» sin endpoint nuevo
+- **Resumen personal del cliente** (tarea 1.2.1.5): estado de la membresía, racha, mejor racha, % de cumplimiento, días asistidos, calendario del mes con los días que vino y sus últimas visitas. Reutiliza los endpoints de membresía, métricas y asistencias; no se creó uno específico porque las tres consultas ya existen y se piden en paralelo.
+- **El roadmap dice «sin HU04 ni HU05 muestra asistencia y membresía en lugar de rutina y dieta»:** por eso no hay bloques de rutina ni dieta. «Mi rutina» sigue marcada como «Pronto» en el menú.
+- **Calendario del mes** (decisión mía): se eligió por ser más visual que otra lista; la semana empieza en lunes.
+

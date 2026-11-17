@@ -51,7 +51,7 @@ export const ITEMS_MENU = [
   { ruta: "/medidas", etiqueta: "Medidas", icono: Ruler, roles: ["entrenador"], disponible: false },
 
   // --- Cliente ---
-  { ruta: "/mi-progreso", etiqueta: "Mi progreso", icono: Activity, roles: ["cliente"], disponible: false },
+  { ruta: "/mi-progreso", etiqueta: "Mi progreso", icono: Activity, roles: ["cliente"], disponible: true },
   { ruta: "/checkin", etiqueta: "Registrar entrada", icono: ScanLine, roles: ["cliente"], disponible: true },
   { ruta: "/mi-historial", etiqueta: "Mi historial", icono: History, roles: ["cliente"], disponible: true },
   { ruta: "/mi-rutina", etiqueta: "Mi rutina", icono: Dumbbell, roles: ["cliente"], disponible: false },

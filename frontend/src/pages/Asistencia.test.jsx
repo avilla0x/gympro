@@ -246,3 +246,61 @@ function simularServidorSinSesion(entrada) {
     "GET /usuarios/1/asistencia/metricas": () => respuestaApi(METRICAS),
   });
 }
+
+describe("Mi progreso (cliente)", () => {
+  const MEMBRESIA = { estado: "al_dia", puede_entrar: true, fecha_vencimiento: "2026-12-30", dias_restantes: 43, plan: "Mensual" };
+  const rutas = (membresia = MEMBRESIA, entradas = ENTRADAS) => ({
+    "GET /usuarios/1/membresia": () => respuestaApi(membresia),
+    "GET /usuarios/1/asistencia/metricas": () => respuestaApi(METRICAS),
+    "GET /usuarios/1/asistencias": () => respuestaApi(entradas),
+  });
+
+  it("junta membresía, constancia y calendario del mes", async () => {
+    conSesionDe("cliente", rutas());
+    dibujarApp("/mi-progreso");
+    expect(await screen.findByText("Mi membresía")).toBeInTheDocument();
+    expect(screen.getByText("Al día")).toBeInTheDocument();
+    expect(screen.getByText("Mensual")).toBeInTheDocument();
+    expect(screen.getByText("Racha actual")).toBeInTheDocument();
+    expect(screen.getByText("60 %")).toBeInTheDocument();
+    const calendario = screen.getByRole("grid");
+    expect(within(calendario).getAllByTitle(/^Asististe el/).length).toBeGreaterThan(0);
+    expect(within(screen.getByRole("main")).getByRole("link", { name: "Registrar entrada" })).toHaveAttribute("href", "/checkin");
+  });
+
+  it("pide solo las visitas del mes actual", async () => {
+    const falso = conSesionDe("cliente", rutas());
+    dibujarApp("/mi-progreso");
+    await screen.findByText("Mi membresía");
+    const consulta = llamadas(falso, "/usuarios/1/asistencias?")[0];
+    expect(consulta.ruta).toMatch(/desde=\d{4}-\d{2}-01&hasta=\d{4}-\d{2}-\d{2}/);
+  });
+
+  it("si está en mora ofrece pagar en vez de registrar entrada", async () => {
+    conSesionDe("cliente", rutas({ estado: "en_mora", puede_entrar: false, fecha_vencimiento: "2026-10-30", dias_restantes: -12, plan: "Mensual" }, []));
+    dibujarApp("/mi-progreso");
+    await screen.findByText("Mi membresía");
+    const principal = within(screen.getByRole("main"));
+    expect(principal.getByRole("link", { name: "Pagar membresía" })).toHaveAttribute("href", "/pagar");
+    expect(principal.queryByRole("link", { name: "Registrar entrada" })).not.toBeInTheDocument();
+    expect(screen.queryByText("Últimas visitas")).not.toBeInTheDocument();
+  });
+
+  it("sin membresía lo dice", async () => {
+    conSesionDe("cliente", rutas({ estado: "sin_membresia", puede_entrar: false, fecha_vencimiento: null, dias_restantes: null, plan: null }, []));
+    dibujarApp("/mi-progreso");
+    expect(await screen.findByText("Aún no tienes una membresía.")).toBeInTheDocument();
+  });
+
+  it("muestra el error si falla la carga", async () => {
+    conSesionDe("cliente", { ...rutas(), "GET /usuarios/1/membresia": () => respuestaApi({ detail: "No se pudo cargar" }, 500) });
+    dibujarApp("/mi-progreso");
+    expect(await screen.findByText("No se pudo cargar")).toBeInTheDocument();
+  });
+
+  it("el administrador no puede abrir Mi progreso", async () => {
+    conSesionDe("admin");
+    dibujarApp("/mi-progreso");
+    expect(await screen.findByText(/no tienes permiso/i)).toBeInTheDocument();
+  });
+});
